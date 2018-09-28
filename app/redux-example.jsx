@@ -8,14 +8,7 @@ console.log('Starting redux example');
 // 3. No async
 // 4. No changed of input
 
-var stateDefault = {
-    name: 'Anonymous',
-    hobbies: [],
-    movies: []
-};
-var nextHobbyId = 1;
-var nextMovieId = 1;
-
+// Name reducer and action generators
 var nameReducer = (state = 'Anonymous', action) => {
     // state = state || {name: 'Anonymous'};
     switch (action.type) {
@@ -26,6 +19,15 @@ var nameReducer = (state = 'Anonymous', action) => {
     }
 };
 
+var changeName = (name) => {
+    return {
+        type: 'CHANGE_NAME',
+        name
+    };
+};
+
+// Hobbies reducer and action generators
+var nextHobbyId = 1;
 var hobbiesReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD_HOBBY':
@@ -43,6 +45,22 @@ var hobbiesReducer = (state = [], action) => {
     }
 };
 
+var addHobby = (hobby) => {
+    return {
+        type: 'ADD_HOBBY',
+        hobby
+    };
+};
+
+var removeHobby = (id) => {
+    return {
+        type: 'REMOVE_HOBBY',
+        id
+    };
+};
+
+// Movies reducer and action generators
+var nextMovieId = 1;
 var moviesReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD_MOVIE':
@@ -59,6 +77,21 @@ var moviesReducer = (state = [], action) => {
         default:
             return state;
     }
+};
+
+var addMovie = (movie, genre) => {
+    return {
+        type: 'ADD_MOVIE',
+        movie,
+        genre
+    };
+};
+
+var removeMovie = (id) => {
+    return {
+        type: 'REMOVE_MOVIE',
+        id
+    };
 };
 
 var reducer = redux.combineReducers({
@@ -83,44 +116,18 @@ var unsubscribe = store.subscribe(() => {
 
 console.log('currentState', store.getState());
 
-store.dispatch({
-    type: 'CHANGE_NAME',
-    name: 'Alex'
-});
+store.dispatch(changeName('Alex'));
 
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Running'
-});
+store.dispatch(addHobby('Running'));
 
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Walking'
-});
+store.dispatch(addHobby('Walking'));
 
-store.dispatch({
-    type: 'ADD_MOVIE',
-    movie: 'Gone in 60s',
-    genre: 'action'
-});
+store.dispatch(addMovie('Gone in 60s', 'action'));
 
-store.dispatch({
-    type: 'ADD_MOVIE',
-    movie: 'Blair Witch',
-    genre: 'horror'
-});
+store.dispatch(addMovie('Blair Witch', 'horror'));
 
-store.dispatch({
-    type: 'CHANGE_NAME',
-    name: 'Billy'
-});
+store.dispatch(changeName('Billy'));
 
-store.dispatch({
-    type: 'REMOVE_HOBBY',
-    id: 2
-});
+store.dispatch(removeHobby(2));
 
-store.dispatch({
-    type: 'REMOVE_MOVIE',
-    id: 1
-});
+store.dispatch(removeMovie(1));
